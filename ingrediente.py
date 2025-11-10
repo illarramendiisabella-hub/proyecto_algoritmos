@@ -10,44 +10,48 @@ class Ingrediente:
     """
     Clase base para todos los ingredientes del sistema.
     """
-    def __init__(self, id, nombre, categoria, precio):
+    def __init__(self, id, nombre, categoria, tipo):
         self.id = id 
         self.nombre = nombre
         self.categoria = categoria
-        self.precio = precio 
+        self.tipo = tipo
 
     def __str__(self):
-        return f"{self.categoria}, {self.nombre} Costo: {self.precio}"
+        return f"{self.categoria}, {self.nombre},  {self.tipo}"
     
-    def a_dict(self):
-        """Retorna el objeto como un diccionario para guardar en JSON."""
-        return {
-            'id': self.id,
-            'nombre': self.nombre,
-            'categoria': self.categoria,
-            'precio_costo': self.precio
+class GestorIngredientes:
+    """
+    Administra la colección de ingredientes.
+    """
+    def __init__(self):
+        self.ingredientes = []
 
-class Ingrediente_tamano(Ingrediente):
-    """
-    Clase para ingredientes que requieren una longitud para validación (Pan y Salchicha).
-    Hereda de Ingrediente.
-    """
-    def __init__(self, id, nombre, categoria, tamano):
-        super().__init__(id, nombre, categoria)
-        self.tamano = tamano
+    def agregar(self, nombre, categoria, tipo):
+        # Verifica si el ingrediente ya existe
+        for ingrediente in self.ingredientes:
+            if ingrediente.nombre == nombre and ingrediente.categoria == categoria and ingrediente.tipo == tipo:
+                print("Ese ingrediente ya existe.")
+                return
+        nuevo = Ingrediente(nombre, categoria, tipo)
+        self.ingredientes.append(nuevo)
+        print(f"Ingrediente '{nombre}' {tipo} agregado a la categoría '{categoria}'.")
 
-    def __str__(self):
-        return f"{self.categoria} : {self.nombre} ({self.tamano}cm)"
-    
-class Acompanante(Ingrediente):
-    """
-    Hereda de Ingrediente. 
-    Representa los acompañantes que pueden ser vendidos por separado o incluidos en combos.
-    """
-    def __init__(self, id, nombre, categoria, combo: bool = False):
-        super().__init__(id, nombre, categoria)
-        self.combo = combo 
-
-    def __str__(self):
-        combo = " (Combo)" if self.combo else ""
-        return f"{self.categoria} {self.nombre}{combo}"
+    def eliminar(self, nombre, categoria, tipo):
+        encontrado = False
+        nuevos_ingredientes = []
+        for ingrediente in self.ingredientes:
+            if ingrediente.nombre == nombre and ingrediente.categoria == categoria and ingrediente.tipo == tipo:
+            encontrado = True
+            else:
+            nuevos_ingredientes.append(ing)
+        if encontrado:
+            self.ingredientes = nuevos_ingredientes
+            print(f"Ingrediente '{nombre}' {tipo} eliminado de la categoría '{categoria}'.")
+        else:
+            print("El ingrediente no fue encontrado.")
+              
+    def listar(self, categoria):
+        print(f"Ingredientes en la categoría '{categoria}':")
+        for ingrediente in self.ingredientes:
+            if ingrediente.categoria == categoria:
+                print(f"{ingrediente.nombre} {ingrediente.tipo}")

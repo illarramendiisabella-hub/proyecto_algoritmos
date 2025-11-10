@@ -6,7 +6,7 @@ Incluye los métodos para actualizar stock, verificar disponibilidad para una ve
 y mantener la lista de ingredientes.
 """
 
-from ingrediente import Ingrediente, Ingrediente_tamano, Acompanante
+from ingrediente import Ingrediente, Ingrediente_longitud, Acompanante
 
 class Inventario:
     """
@@ -14,6 +14,18 @@ class Inventario:
     y la lista maestra de todos los objetos Ingrediente registrados.
     """
     def __init__(self):
-        self.ingredientes: Dict[str, Ingrediente] = {}
-        self.stock: Dict[str, int] = {}
-        self.ingredientes_nuevos: List[str] = []
+        self.ingredientes = {}  # {nombre: (ingredient, existencia)}
+
+    def anadir_ingrediente(self, ingrediente, cantidad):
+        self.ingrediente[ingrediente.nombre] = (ingrediente, cantidad)
+
+    def eliminar_ingrediente(self, nombre):
+        return self.ingredientes.pop(nombre, None)
+
+    def actualizar_stock(self, nombre, cantidad):
+        if nombre in self.ingredientes:
+            ing, _ = self.ingredientes[nombre]
+            self.ingredientes[nombre] = (ing, cantidad)
+
+    def listar_por_categoria(self, categoria):
+        return [ing for ing, _ in self.ingredientes.values() if ing.categoria == categoria]

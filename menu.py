@@ -1,9 +1,15 @@
-from ingrediente import Ingrediente, Ingrediente_tamano, Acompanante
-class Hotdog:
+from hotdog import Hotdog
+class GestorMenu:
     """
-    Representa una receta específica de Hot Dog en el menú. 
-    Contiene referencias a los objetos Ingrediente que la componen.
+    Administra los hot dogs del menú.
     """
-    def __init__(self, name, precio, pan: Ingrediente_tamano
-                 , sausage: Ingrediente_tamano, toppings: list[Ingrediente], salsas: list[Ingrediente]):
-        pass
+    def __init__(self):
+        self.menu = []  # lista de HotDog
+
+    def agregar_hotdog(self, nombre, ingredientes, longitud_pan, longitud_salchicha, acompanante):
+        if longitud_pan != longitud_salchicha:
+            confirmar = input("Longitud del pan y la salchicha no coinciden. ¿Continuar? (s/n): ")
+            if confirmar.lower() != "s":
+                print("No se agregó el hot dog.")
+                return
+        self.menu.append(HotDog(nombre, ingredientes, longitud_pan, longitud_salchicha, acompanante))
