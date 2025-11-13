@@ -33,8 +33,8 @@ class GestorIngredientes:
     """
     def __init__(self):
         self.ingredientes = []
-
-     def cargar_desde_json(self, ruta):
+        
+    def cargar_desde_json(self, ruta):
         """Carga ingredientes desde un archivo JSON local."""
         try:
             with open(ruta, "r", encoding="utf-8") as archivo:
@@ -51,32 +51,72 @@ class GestorIngredientes:
         with open(ruta, "w", encoding="utf-8") as archivo:
             json.dump(datos, archivo, indent=4)
 
-    def agregar(self, nombre, categoria, tipo):
-        # Verifica si el ingrediente ya existe
-        for ingrediente in self.ingredientes:
-            if ingrediente.nombre == nombre and ingrediente.categoria == categoria and ingrediente.tipo == tipo:
+
+     def agregar_ingrediente(self, nombre, categoria, tipo):
+        """
+        Agrega un nuevo ingrediente si no existe ya.
+
+        Parámetros:
+            nombre (str): Nombre del ingrediente.
+            categoria (str): Categoría (pan, salchicha, salsa, etc.).
+            tipo (str): Tipo dentro de la categoría.
+
+        Retorna:
+            bool: True si se agregó, False si ya existía.
+        """
+        for ing in self.ingredientes:
+            if ing.nombre == nombre:
                 print("Ese ingrediente ya existe.")
-                return
+                return False
+
         nuevo = Ingrediente(nombre, categoria, tipo)
         self.ingredientes.append(nuevo)
-        print(f"Ingrediente '{nombre}' {tipo} agregado a la categoría '{categoria}'.")
+        print("Ingrediente agregado correctamente.")
+        return True
 
-    def eliminar(self, nombre, categoria, tipo):
-        encontrado = False
-        nuevos_ingredientes = []
-        for ingrediente in self.ingredientes:
-            if ingrediente.nombre == nombre and ingrediente.categoria == categoria and ingrediente.tipo == tipo:
-            encontrado = True
-            else:
-            nuevos_ingredientes.append(ing)
-        if encontrado:
-            self.ingredientes = nuevos_ingredientes
-            print(f"Ingrediente '{nombre}' {tipo} eliminado de la categoría '{categoria}'.")
-        else:
-            print("El ingrediente no fue encontrado.")
-              
-    def listar(self, categoria):
-        print(f"Ingredientes en la categoría '{categoria}':")
-        for ingrediente in self.ingredientes:
-            if ingrediente.categoria == categoria:
-                print(f"{ingrediente.nombre} {ingrediente.tipo}")
+    def listar_por_categoria(self, categoria):
+        """
+        Muestra todos los ingredientes de una categoría.
+
+        Parámetros:
+            categoria (str): Categoría a buscar.
+        """
+        for ing in self.ingredientes:
+            if ing.categoria == categoria:
+                print(ing)
+
+    def listar_por_tipo(self, categoria, tipo):
+        """
+        Muestra ingredientes de una categoría y tipo específico.
+
+        Parámetros:
+            categoria (str): Categoría a buscar.
+            tipo (str): Tipo dentro de la categoría.
+        """
+        for ing in self.ingredientes:
+            if ing.categoria == categoria and ing.tipo == tipo:
+                print(ing)
+
+    def eliminar_ingrediente(self, nombre, menu):
+        """
+        Elimina un ingrediente. Si está en uso en el menú, pide confirmación.
+
+        Parámetros:
+            nombre (str): Nombre del ingrediente a eliminar.
+            menu (Menu): Menú actual para verificar si el ingrediente está en uso.
+        """
+        en_uso = menu.ingredientes_en_uso()
+
+        if nombre in en_uso:
+            print(f"El ingrediente '{nombre}' está en uso.")
+            respuesta = input("¿Eliminarlo junto con los hot dogs que lo usan? (s/n): ")
+            if respuesta.lower() != "s":
+                print("No se eliminó nada.")
+                return
+
+            menu.eliminar_hotdogs_con_ingrediente(nombre)
+
+        self.ingredientes = [ing for ing in self.ingredientes if ing.nombre != nombre]
+        print(f"Ingrediente '{nombre}' eliminado.")
+
+     
