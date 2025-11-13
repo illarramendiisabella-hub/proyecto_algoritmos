@@ -1,7 +1,7 @@
 from hotdog import Hotdog
 from inventario import Inventario
 
-class GestorMenu:
+class Menu:
     """
     Administra los hot dogs del menú.
     """
