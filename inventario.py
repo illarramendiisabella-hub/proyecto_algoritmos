@@ -40,7 +40,7 @@ class Inventario:
         else:
             print(f"{nombre}: {cantidad}")
 
-        def listar_por_categoria(self, categoria, gestor_ingredientes):
+    def listar_por_categoria(self, categoria, gestor_ingredientes):
         """
         Muestra todos los ingredientes de una categoría y sus cantidades.
         Parámetros:
