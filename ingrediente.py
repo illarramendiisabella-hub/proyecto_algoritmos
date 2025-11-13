@@ -1,3 +1,5 @@
+import json
+
 """
 Módulo de Clases de Ingredientes
 
