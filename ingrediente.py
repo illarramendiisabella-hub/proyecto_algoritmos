@@ -16,6 +16,14 @@ class Ingrediente:
         self.categoria = categoria
         self.tipo = tipo
 
+    def to_dict(self):
+        """Convierte el ingrediente a un diccionario para guardar en JSON."""
+        return {
+            "nombre": self.nombre,
+            "categoria": self.categoria,
+            "tipo": self.tipo
+        }
+
     def __str__(self):
         return f"{self.categoria}, {self.nombre},  {self.tipo}"
     
