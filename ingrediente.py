@@ -34,6 +34,23 @@ class GestorIngredientes:
     def __init__(self):
         self.ingredientes = []
 
+     def cargar_desde_json(self, ruta):
+        """Carga ingredientes desde un archivo JSON local."""
+        try:
+            with open(ruta, "r", encoding="utf-8") as archivo:
+                datos = json.load(archivo)
+                for item in datos:
+                    nuevo = Ingrediente(item["nombre"], item["categoria"], item["tipo"])
+                    self.ingredientes.append(nuevo)
+        except FileNotFoundError:
+            print("No se encontró el archivo. Se iniciará con lista vacía.")
+
+    def guardar_en_json(self, ruta):
+        """Guarda los ingredientes actuales en un archivo JSON."""
+        datos = [ing.to_dict() for ing in self.ingredientes]
+        with open(ruta, "w", encoding="utf-8") as archivo:
+            json.dump(datos, archivo, indent=4)
+
     def agregar(self, nombre, categoria, tipo):
         # Verifica si el ingrediente ya existe
         for ingrediente in self.ingredientes:
