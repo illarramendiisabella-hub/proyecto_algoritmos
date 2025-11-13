@@ -13,11 +13,11 @@ class Hotdog:
         self.salsas = salsas      
         self.acompanante = acompanante
 
-    def validar_longitud(self):
-        return self.pan.tipo == self.salchicha.tipo
-    
     def ingredientes_totales(self):
-        lista = [self.pan, self.salchicha] + self.toppings + self.salsas
+        """
+        Devuelve una lista con todos los ingredientes usados en el hot dog.
+        """
+        ingredientes = [self.pan, self.salchicha] + self.toppings + self.salsas
         if self.acompanante:
-            lista.append(self.acompanante)
-        return lista
+            ingredientes.append(self.acompanante)
+        return ingredientes
